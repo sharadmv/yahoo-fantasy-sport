@@ -43,8 +43,9 @@ class FantasySport(object):
         - uri : roster resource uri
         - roster : roster object
         """
-        headers = {'Content-Type':'application/{0}'.format(self.fmt)}
-        data = roster.to_json() if self.fmt == 'json' else roster.to_xml() # Getting roster xml or json according to self.fmt
+        fmt = 'xml'
+        headers = {'Content-Type':'application/{0}'.format(fmt)}
+        data = roster.to_json() if fmt == 'json' else roster.to_xml() # Getting roster xml or json according to self.fmt
 
         response = self.oauth.session.put(uri, data=data, headers=headers)
         return response
@@ -360,7 +361,7 @@ class FantasySport(object):
         >>> roster = Roster([p1, p2], date='2015-01-11')
         >>> ysf.set_roster_players(['238.l.627062'], roster)
         """
-        uri = self._build_uri(None, team_keys, sub='roster/players')
+        uri = self._build_uri(None, team_keys, sub='roster')
         uri = 'team/{0}'.format(uri)
 
         response = self._put(uri, roster)
